@@ -1,11 +1,11 @@
-@(user: Skier)
+@(user: String)
 
 @main("Welcome to Freezer") {
 
     <div data-role="page" id="home" data-theme="c">
         <div data-role="header" data-theme="c">
             <a href="#" data-role="button" data-icon="back" data-theme="c">Quit</a>
-            <h1>Welcome @user.getFirstname</h1>
+            <h1>Welcome @user</h1>
             <a href="#" data-role="button" data-icon="settings" data-theme="c">Settings</a>
         </div>
         <div data-role="content" data-theme="c" style="text-align:center;">

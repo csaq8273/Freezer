@@ -4,7 +4,8 @@ package controllers;
 import models.Skier;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.collection.immutable.HashSet;
+import scala.collection.immutable.Set;
+import server.Database;
 import views.html.index;
 import views.html.search;
 
@@ -17,13 +18,14 @@ public class Application extends Controller {
 
 
     public static Result index() {
-        
-        return ok(index.render(example));
+        Database s = new Database();
+        s.getSkier();
+        s.log+="jkjjkl";
+        return ok(index.render(s.log));
     }
 
     public static Result searchSkier(){
-        HashSet<Skier> aviable_skier = new HashSet<Skier>();
-        return ok(search.render(aviable_skier.toList()));
+        return ok(index.render("LOL"));
     }
 
 }
