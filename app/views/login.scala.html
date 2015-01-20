@@ -1,0 +1,34 @@
+@(loggedIn: Skier)
+
+
+@main("Welcome "+ loggedIn.getUsername ) {
+  <div data-role="page" id="home" data-theme="c">
+    <div data-role="header" data-theme="c">
+      <a href="#" data-role="button" data-icon="back" data-theme="c">Quit</a>
+      <h1>Welcome @loggedIn.getUsername</h1>
+    </div>
+    <div data-role="content" data-theme="c" style="text-align:center;">
+      <form action="@routes.Application.register()" method="post">
+        <h2>We need some more Information..</h2>
+        <div data-role="fieldcontain" class="ui-label">
+          <label for="firstname">First Name:</label>
+          <input type="text" name="firstname" id="firstname" placeholder="Maximilian" />
+        </div>
+        <div data-role="fieldcontain" class="ui-label">
+          <label for="lastname">Last Name:</label>
+          <input type="text" name="lastname" id="lastname" placeholder="Mustermann" />
+        </div>
+        <div data-role="fieldcontain" class="ui-label">
+          <label for="birthdate">Birthdate:</label>
+          <input type="date" name="birthdate" id="birthdate">
+        </div>
+        <input type="submit" value="Register">
+      </form>
+    </div>
+    <div data-role="footer" data-theme="c">
+      <a href="#" data-role="button" data-theme="c">Your AD here!</a>
+    </div>
+  </div>
+  <h1>:</h1>
+  <meta http-equiv="refresh" content="5; URL=/home">
+}

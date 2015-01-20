@@ -1,27 +1,31 @@
-@(user: String)
-
 @main("Welcome to Freezer") {
 
     <div data-role="page" id="home" data-theme="c">
         <div data-role="header" data-theme="c">
             <a href="#" data-role="button" data-icon="back" data-theme="c">Quit</a>
-            <h1>Welcome @user</h1>
-            <a href="#" data-role="button" data-icon="settings" data-theme="c">Settings</a>
+            <h1>Welcome</h1>
         </div>
         <div data-role="content" data-theme="c" style="text-align:center;">
-            <img title="Wetta Logo isch des?" src="images/salewa.jpg" id="bild" width="80%"/>
-            <div data-role="fieldcontain" id="navInputs">
-                <input type="text" value="" id="inputfield" width="100%" />
-                <div data-role="navbar" >
-                    <ul>
-                        <li><input type="button" id="check" value="Ischs des?"/></li>
-                        <li><input type="button" id="tipp" value="Tipp?!" /></li>
-                    </ul>
+            <form action="@routes.Application.login()" method="post">
+                <h2>Login</h2>
+                <div data-role="fieldcontain" class="ui-label">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" value="" placeholder="mustermax" />
                 </div>
-            </div>
+                <div data-role="fieldcontain" class="ui-label">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" value="" placeholder="mustermaximilian" />
+                </div>
+
+                <div data-role="fieldcontain" class="ui-label">
+                    <label for="new_user">New User
+                    <input type="checkbox" name="new_user" id="new_user"></label>
+                </div>
+                <input type="submit" value="Login">
+            </form>
         </div>
         <div data-role="footer" data-theme="c">
-            <a href="http://www.waldboth.com/werbung.php?app=logoquiz" data-role="button" data-theme="c">Do kannt deine Werbung sein!</a>
+            <a href="#" data-role="button" data-theme="c">Your AD here!</a>
         </div>
     </div>
 
