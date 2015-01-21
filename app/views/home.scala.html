@@ -1,28 +1,42 @@
-@(skier: Skier)
-
+@(skier: Skier, skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
 
     @main("Freezer -" +skier.getUsername) {
-        <div data-role="page" id="company">
+
+
+        <div data-role="page" id="company" >
             <div data-role="header" data-theme="c">
                 <a href="#" data-role="button" data-icon="back" data-theme="c">Zrug!</a>
                 <h1>@skier.getFirstname()'s Freezer</h1>
                 <a href="#" data-role="button" data-icon="settings" data-theme="c">Settings</a>
             </div>
-            <div data-role="content" data-theme="c" style="text-align:center;">
-                <img title="Wetta Logo isch des?" src="images/salewa.jpg" id="bild" width="80%"/>
-                <div data-role="fieldcontain" id="navInputs">
-                    <input type="text" value="" id="inputfield" width="100%" />
-                    <div data-role="navbar" >
-                        <ul>
-                            <li><input type="button" id="check" value="Ischs des?"/></li>
-                            <li><input type="button" id="tipp" value="Tipp?!" /></li>
-                        </ul>
-                    </div>
-                </div>
+            <div data-role="content" data-theme="c" >
+                <table data-role="table" id="movie-table" data-mode="reflow" class="ui-responsive">
+                    <tr>
+                        <td>Current Location:</td>
+                        <td colspan="2">
+                            <select name="skiArena" id="skiArena">
+                                <option id="0" value=""></option>
+
+                                @for(skiArena <- skiArenas) {
+                                    <option>@skiArena.getName()</option>
+                                }
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Freezers in <span id="curLoc"></span>:</td>
+                        <td colspan="2" id="freezers"></td>
+                    </tr>
+                    <tr>
+                        <td>Meetings:</td>
+                        <td>Open: <span id="openMeetings">@openMeetings</span></td>
+                        <td>Done: <span id="doneMeetings">@doneMeetings</span></td>
+                    </tr>
+                </table>
             </div>
             <div data-role="footer" data-theme="c">
                 <a href="http://www.waldboth.com/werbung.php?app=logoquiz" data-role="button" data-theme="c">Do kannt deine Werbung sein!</a>
             </div>
 
         </div>
-    }
+}

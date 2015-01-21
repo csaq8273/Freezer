@@ -8,6 +8,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Skier extends Model{
     private boolean is_online;
     private Lift current_lift;
     private List<Interests> interests;
+    private List<Meeting> meetings;
 
     public Skier(String username, String password) {
         this.id = 100;
@@ -39,6 +41,9 @@ public class Skier extends Model{
         this.firstname =firstname;
         this.lastname =lastname;
         this.birthdate =birthdate;
+        this.interests=new ArrayList<Interests>();
+        this.meetings=new ArrayList<Meeting>();
+
 
     }
 
@@ -102,5 +107,11 @@ public class Skier extends Model{
         this.birthdate = birthdate;
     }
 
+    public List<Meeting> getMeetings() {
+        return meetings;
+    }
 
+    public void setMeetings(List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 }
