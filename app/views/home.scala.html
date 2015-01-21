@@ -4,8 +4,9 @@
     @main("Freezer -" +skier.getUsername) {
         <div data-role="page" id="company">
             <div data-role="header" data-theme="c">
-                <a href="javascript:onBackKeyDown();" data-role="button" data-icon="back" data-theme="c">Zrug!</a>
-                <h1 id="company_h1"></h1>
+                <a href="#" data-role="button" data-icon="back" data-theme="c">Zrug!</a>
+                <h1>@skier.getFirstname()'s Freezer</h1>
+                <a href="#" data-role="button" data-icon="settings" data-theme="c">Settings</a>
             </div>
             <div data-role="content" data-theme="c" style="text-align:center;">
                 <img title="Wetta Logo isch des?" src="images/salewa.jpg" id="bild" width="80%"/>
