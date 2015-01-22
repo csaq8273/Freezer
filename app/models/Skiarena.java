@@ -33,13 +33,15 @@ public class Skiarena extends Model {
         this.name = name;
     }
 
-    private static boolean initialized=false;
     private static List<Skiarena> all=null;
     public static List<Skiarena> initSkiarenas(){
-        if(initialized==false) {
-            initialized = true;
+        try {
             ReadExcel test = new ReadExcel();
             test.read();
+        } catch (Exception e){
+
+        } finally {
+
             all = new Model.Finder(String.class, Skiarena.class).all();
         }
         return all;

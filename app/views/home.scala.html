@@ -1,24 +1,23 @@
 @(skier: Skier, skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
 
-    @main("Freezer -" +skier.getUsername) {
+    @main("Freezer - " +skier.getUsername) {
 
-
-        <div data-role="page" id="company" >
+        <div data-role="page" id="home" >
             <div data-role="header" data-theme="c">
-                <a href="#" data-role="button" data-icon="back" data-theme="c">Zrug!</a>
+                <a href="#viewMeetings" data-role="button" data-icon="info" data-theme="c">View Meetings</a>
                 <h1>@skier.getFirstname()'s Freezer</h1>
-                <a href="#" data-role="button" data-icon="settings" data-theme="c">Settings</a>
+                <a href="#createMeeting" data-role="button" data-icon="settings" data-theme="c">Search Meeting</a>
             </div>
             <div data-role="content" data-theme="c" >
                 <table data-role="table" id="movie-table" data-mode="reflow" class="ui-responsive">
                     <tr>
                         <td>Current Location:</td>
                         <td colspan="2">
-                            <select name="skiArena" id="skiArena">
+                            <select name="skiArena" id="skiArena" onchange="locationChanged(this.value)">
                                 <option id="0" value=""></option>
 
                                 @for(skiArena <- skiArenas) {
-                                    <option>@skiArena.getName()</option>
+                                    <option id="@skiArena.getName()" value="@skiArena.getName()">@skiArena.getName()</option>
                                 }
                                 </select>
                         </td>
@@ -35,7 +34,51 @@
                 </table>
             </div>
             <div data-role="footer" data-theme="c">
-                <a href="http://www.waldboth.com/werbung.php?app=logoquiz" data-role="button" data-theme="c">Do kannt deine Werbung sein!</a>
+                <a href="#" data-role="button" data-theme="c">Your AD here!</a>
+            </div>
+        </div>
+
+        <div data-role="page" id="createMeeting" >
+            <div data-role="header" data-theme="c">
+                <a href="#viewMeetings" data-role="button" data-icon="info" data-theme="c">View Meetings</a>
+                <h1>Search a new Meeting</h1>
+                <a href="#home" data-role="button" data-icon="home" data-theme="c">Home</a>
+            </div>
+            <div data-role="content" data-theme="c" >
+                <div class="ui-grid-a">
+                    <div class="ui-block-a"><h2>Current Location:</h2><br><h2>Freezers in <span id="curLoc"></span>:</h2></div>
+                    <div class="ui-block-b"><select name="skiArena" id="skiArena" onchange="locationChanged(this.value)">
+                        <option id="0" value=""></option>
+
+                        @for(skiArena <- skiArenas) {
+                            <option id="@skiArena.getName()" value="@skiArena.getName()">@skiArena.getName()</option>
+                        }
+                    </select> <br> <span id="freezers">asfasf</span></div>
+
+                </div>
+                <div class="ui-grid-b">
+                    <div class="ui-block-a"><h2>Meetings:</h2> </div>
+                    <div class="ui-block-b">Open: 0</div>
+                    <div class="ui-block-c">Done: 0</div>
+                </div>
+            </div>
+            <div data-role="footer" data-theme="c">
+                <a href="#" data-role="button" data-theme="c">Your AD here!</a>
+            </div>
+
+        </div>
+
+        <div data-role="page" id="viewMeetings" >
+            <div data-role="header" data-theme="c">
+                <a href="#home" data-role="button" data-icon="home" data-theme="c">Home</a>
+                <h1>@skier.getFirstname()'s Meetings</h1>
+                <a href="#" data-role="button" data-icon="settings" data-theme="c">Search Meeting</a>
+            </div>
+            <div data-role="content" data-theme="c" >
+
+            </div>
+            <div data-role="footer" data-theme="c">
+                <a href="#" data-role="button" data-theme="c">Your AD here!</a>
             </div>
 
         </div>

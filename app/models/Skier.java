@@ -24,7 +24,7 @@ public class Skier extends Model{
     private String lastname;
     private Date birthdate;
     private boolean is_online;
-    private Lift current_lift;
+    private Skiarena current_location;
     private List<Interests> interests;
     private List<Meeting> meetings;
 
@@ -67,12 +67,12 @@ public class Skier extends Model{
         this.is_online = is_online;
     }
 
-    public Lift getCurrent_lift() {
-        return current_lift;
+    public Skiarena getCurrent_location() {
+        return current_location;
     }
 
-    public void setCurrent_lift(Lift current_lift) {
-        this.current_lift = current_lift;
+    public void setCurrent_location(Skiarena current_location) {
+        this.current_location = current_location;
     }
 
     public List<Interests> getInterests() {
