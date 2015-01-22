@@ -6,10 +6,9 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Meeting extends Model{
@@ -17,15 +16,14 @@ public class Meeting extends Model{
     @Id
     private String id;
 
-    private Skier skier1;
-    private Skier skier2;
+    @ManyToMany
+    private List<Skier> skiers;
     private Lift lift;
     private Date date;
 
     // Default constructor
-    public Meeting(Skier skier1, Skier skier2, Lift lift) {
-        this.skier1=skier1;
-        this.skier2= skier2;
+    public Meeting(Lift lift , List<Skier> skiers) {
+        this.skiers=skiers;
         this.lift=lift;
         this.date = new Date();
     }
@@ -38,20 +36,12 @@ public class Meeting extends Model{
         this.id = id;
     }
 
-    public Skier getSkier1() {
-        return skier1;
+    public List<Skier> getSkiers() {
+        return skiers;
     }
 
-    public void setSkier1(Skier skier1) {
-        this.skier1 = skier1;
-    }
-
-    public Skier getSkier2() {
-        return skier2;
-    }
-
-    public void setSkier2(Skier skier2) {
-        this.skier2 = skier2;
+    public void setSkiers(List<Skier> skiers) {
+        this.skiers = skiers;
     }
 
     public Lift getLift() {

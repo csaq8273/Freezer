@@ -49,7 +49,7 @@ public class ReadExcel {
     }
 
     private void readRows(Sheet sheet) {
-        Skiarena test= new Skiarena(0,"Test");
+        Skiarena test= new Skiarena(1000,"");
         test.save();
         for (int i = rows; i < sheet.getRows(); i++) {
             String name=sheet.getCell(nameColumn,i).getContents();
@@ -60,10 +60,10 @@ public class ReadExcel {
             } catch (Exception e){
                 seats=0;
             }
-            Skiarena s= new Skiarena(i,skiarena);
-            List<Skiarena> sList=new Model.Finder(String.class,Skiarena.class).where().like("name",s.getName()).findList();
-            if(sList.size()>0)
-                s=sList.get(0);
+            Skiarena s= new Skiarena(Skiarena.getMaxId(),skiarena);
+            Skiarena sList=Skiarena.getByName(skiarena);
+            if(sList!=null)
+                s=sList;
             else
                 s.save();
             Lift l= new Lift(name,s,seats);

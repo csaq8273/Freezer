@@ -1,3 +1,5 @@
+@(loginResponse : String)
+
 @main("Welcome to Freezer") {
 
     <div data-role="page" id="home" data-theme="c">
@@ -8,6 +10,11 @@
         <div data-role="content" data-theme="c" style="text-align:center;">
             <form action="@routes.Application.login()" method="post">
                 <h2>Login</h2>
+                @if(loginResponse != "") {
+                    <p class="error">
+                    @loginResponse
+                    </p>
+                }
                 <div data-role="fieldcontain" class="ui-label">
                     <label for="username">Username:</label>
                     <input type="text" name="username" id="username" value="" placeholder="mustermax" />
@@ -25,7 +32,7 @@
             </form>
         </div>
         <div data-role="footer" data-theme="c">
-            <a href="#" data-role="button" data-theme="c">Your AD here!</a>
+            <a href="#" data-role="button" data-theme="c" style="background: URL('http://upload.wikimedia.org/wikipedia/en/3/3b/DayZ-mainpage-banner.png') repeat">Your AD here!</a>
         </div>
     </div>
 

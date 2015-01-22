@@ -6,7 +6,10 @@ import reader.ReadExcel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SecondaryTable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ivan on 21.01.2015.
@@ -15,15 +18,29 @@ import java.util.List;
 public class Skiarena extends Model {
 
     @Id
-    private String id;
+    private int id;
 
     private String name;
 
+    @OneToMany(mappedBy = "current_location")
+    private Set<Skier> skiers;
+
+    public static final Model.Finder<Integer, Skiarena> FIND = new Model.Finder<Integer, Skiarena>(Integer.class,
+            Skiarena.class);
+
+
     public Skiarena(int id, String name){
-        this.id="ski_"+id;
+        this.id=id;
         this.name=name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -39,11 +56,28 @@ public class Skiarena extends Model {
             ReadExcel test = new ReadExcel();
             test.read();
         } catch (Exception e){
-
+e.printStackTrace();
         } finally {
 
-            all = new Model.Finder(String.class, Skiarena.class).all();
+            all = getAll();
         }
         return all;
+    }
+
+    public static Skiarena getByName(String name){
+        return FIND.where().eq("name",name).findUnique();
+    }
+
+    public static List<Skiarena> getAll()
+    {
+        return FIND.all();
+    }
+
+    public static int getMaxId(){
+        int maxid=0;
+        for (Skiarena ski : getAll()) {
+            if (ski.getId() > maxid) maxid = ski.getId();
+        }
+        return maxid+1;
     }
 }
