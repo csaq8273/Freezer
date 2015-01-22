@@ -1,6 +1,7 @@
 package controllers;
 
 
+import models.Interests;
 import models.Meeting;
 import models.Skiarena;
 import models.Skier;
@@ -18,9 +19,7 @@ import views.html.search;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static play.libs.Json.toJson;
 
@@ -35,7 +34,68 @@ public class Application extends Controller {
         return ok(index.render());
     }
 
-    public static Result searchSkier(){
+    // Searches through all skiers and tries to find the best matches
+    // Matching criteria are age difference and gender and the result is sorted by number of matching interests
+    // The search algorithm is pretty much as inefficient as it gets, but should do for our purposes
+    public static Result searchSkier() {
+        // Options to be used for the algorithm
+        // TODO: allow the user to change these settings
+        int ageDifference = 5;
+        int genderToMatch = 1; // this means: match only females
+
+        List<Skier> skierList = new Model.Finder(String.class, Skier.class).all();
+        List<Skier> matchedSkierList = new ArrayList();
+        Map<Integer, Integer> interestsMap = new HashMap();
+
+        // Go through all skiers
+        for (int i = 0; i < skierList.size(); ++i) {
+            Skier skier = skierList.get(i);
+
+            // We don't wanna match ourselves
+            if (skier == loggedInSkier) {
+                continue;
+            }
+
+            // Is our match even within the specified age range and has the right gender
+            if (Math.abs(loggedInSkier.getBirthYear() - skier.getBirthYear()) <= ageDifference && skier.getGender() == genderToMatch) {
+                // Compare all interests
+                for (Interests loggedInInterest : loggedInSkier.getInterests()) {
+                    for (Interests interest : skier.getInterests()) {
+                        // Do we have a match?
+                        if (loggedInInterest.matchInterest(interest)) {
+                            // Store how many matching interests we have
+                            Integer matchedInterests = interestsMap.get(i);
+
+                            if (matchedInterests == null) {
+                                matchedInterests = 1;
+                            } else {
+                                ++matchedInterests;
+                            }
+
+                            interestsMap.put(i, matchedInterests);
+                        }
+                    }
+                }
+
+                matchedSkierList.add(skier);
+            }
+        }
+
+        // Sort the matched skiers based on the number of matching interests
+        Object[] sortMap = interestsMap.entrySet().toArray();
+        Arrays.sort(sortMap, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Map.Entry<Integer, Integer>) o2).getValue().compareTo(((Map.Entry<Integer, Integer>) o1).getValue());
+            }
+        });
+
+        List<Skier> sortedMatchedSkierList = new ArrayList();
+
+        for (Object sortedElem : sortMap) {
+            sortedMatchedSkierList.add(matchedSkierList.get(((Map.Entry<Integer, Integer>) sortedElem).getKey()));
+        }
+
+        // TODO: Return sortedMatchedSkierList somehow?!
 
         return ok(index.render());
     }

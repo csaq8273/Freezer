@@ -29,6 +29,7 @@ create table skier (
   firstname                 varchar(255),
   lastname                  varchar(255),
   birthdate                 timestamp,
+  gender                    integer,
   is_online                 boolean,
   constraint pk_skier primary key (id))
 ;
