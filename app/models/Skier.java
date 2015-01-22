@@ -10,12 +10,11 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Skier extends Model {
+public class Skier extends Model{
 
     @Id
     private int id;
@@ -25,7 +24,6 @@ public class Skier extends Model {
     private String firstname;
     private String lastname;
     private Date birthdate;
-    private int gender; // -1 == not specified | 0 = male | 1 = female
     private boolean is_online;
 
     @ManyToOne
@@ -49,9 +47,8 @@ public class Skier extends Model {
         this.meetings=new ArrayList<Meeting>();
     }
 
-    public Skier(String username, String password, int id, String firstname, String lastname, Date birthdate) {
+    public Skier(String username, String password, int id, String firstname, String lastname, Date birthdate){
         this.id = id;
-<<<<<<< HEAD
         this.username=username;
         this.password=password;
         this.firstname =firstname;
@@ -62,15 +59,6 @@ public class Skier extends Model {
         this.current_location = Skiarena.FIND.byId(1000);
 
 
-=======
-        this.username = username;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthdate = birthdate;
-        this.interests = new ArrayList<Interests>();
-        this.meetings = new ArrayList<Meeting>();
->>>>>>> origin/master
     }
 
     public int getId() {
@@ -129,23 +117,8 @@ public class Skier extends Model {
         return birthdate;
     }
 
-    public int getBirthYear() {
-        Calendar birthYearCal = Calendar.getInstance();
-        birthYearCal.setTime(this.birthdate);
-
-        return birthYearCal.get(Calendar.YEAR);
-    }
-
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
     }
 
     public List<Meeting> getMeetings() {
