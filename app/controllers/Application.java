@@ -1,10 +1,7 @@
 package controllers;
 
 
-import models.Meeting;
-import models.Session;
-import models.Skiarena;
-import models.Skier;
+import models.*;
 import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model;
@@ -12,10 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import scala.collection.immutable.Set;
-import views.html.home;
-import views.html.index;
-import views.html.login;
-import views.html.search;
+import views.html.*;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,13 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static play.libs.Json.toJson;
 
 
 public class Application extends Controller {
 
-    public static List<Skiarena> skiarenas = null;
 
     private static String COOKIE_NAME = "freezersession";
 
@@ -68,9 +62,25 @@ public class Application extends Controller {
 
     public static Result searchSkier(){
         Skier loggedInSkier = authenticate();
-        if(loggedInSkier!=null)
-            return redirect("/home");
-        else
+        if(loggedInSkier!=null) {
+            String username = Form.form().bindFromRequest().get("username");
+            String birthdate_to = Form.form().bindFromRequest().get("birthdate_to");
+            String birthdate_from = Form.form().bindFromRequest().get("birthdate_from");
+            String location = Form.form().bindFromRequest().get("loocation");
+            List<Interests> myInterests=new ArrayList<Interests>();
+
+            if(Form.form().bindFromRequest().get("interests_switch").equals("on")) {
+                for (Interests interests : Interests.getAll()) {
+                        if (Form.form().bindFromRequest().get("interest_" + interests.getId())!=null)
+                            myInterests.add(interests);
+
+                }
+            }
+            loggedInSkier.setInterests(myInterests);
+            loggedInSkier.save();
+            List<Skier> result=Skier.getAll();
+            return ok(toJson(result));
+        }else
             return ok(index.render(""));
     }
 
@@ -123,14 +133,24 @@ public class Application extends Controller {
 
     }
 
-    public static Result meet() {
+    public static Result meet(Integer id) {
         Skier loggedInSkier = authenticate();
-        return play.mvc.Results.TODO;
+        String newMeeting = Form.form().bindFromRequest().get("request");
+        if(loggedInSkier.getCurrent_location()==null){
+            return redirect("/");
+        } else {
+            if (newMeeting != null) {
+
+                return ok(toJson(loggedInSkier));
+
+            } else {
+                return ok(meeting.render(loggedInSkier, Skier.FIND.byId(id), Lift.getBySkiarena(loggedInSkier.getCurrent_location().getName())));
+            }
+        }
     }
 
-    public static Result visitSkier(int id) {
+    public static Result visitSkier() {
         Skier loggedInSkier = authenticate();
-        if(id==-1) {
             String location = Form.form().bindFromRequest().get("setLocation");
             if (location != null) {
                 Skiarena ss = Skiarena.getByName(location);
@@ -145,10 +165,8 @@ public class Application extends Controller {
                     return ok(toJson(size));
                 } else return ok(toJson(0));
             } else {
-                return ok(toJson(0));
+                 return play.mvc.Results.TODO;
             }
-        }
-        else return play.mvc.Results.TODO;
     }
 
 
@@ -160,6 +178,6 @@ public class Application extends Controller {
                 doneMeetings++;
             } else openMeetings++;
         }
-        return ok(home.render(loggedInSkier,skiarenas,Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings)));
+        return ok(home.render(loggedInSkier,Interests.getAll(),Skiarena.getAll(),Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings)));
     }
 }

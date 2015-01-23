@@ -7,7 +7,7 @@
             <h1>Welcome</h1>
         </div>
         <div class="ui-content" data-theme="a">
-            <form action="@routes.Application.login()" method="post">
+            <form action="@routes.Application.login()" method="post" data-ajax="false">
                 <h2>Login</h2>
                 @if(loginResponse != "") {
                     <p class="error">

@@ -72,7 +72,9 @@ public class Lift extends Model{
     public static List<Lift> getBySkiarena(String arena){
         List<Lift> bySkiarena=new ArrayList<Lift>();
         for(Lift f : getAll()){
-            if(f.getSki_arena().getName().equals(arena)) bySkiarena.add(f);
+            try {
+                if (f.getSki_arena().getName().equals(arena)) bySkiarena.add(f);
+            }catch(Exception e){}
         }
         return bySkiarena;
     }

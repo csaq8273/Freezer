@@ -7,7 +7,7 @@
       <h1>Welcome @loggedIn.getUsername</h1>
     </div>
     <div class="ui-content" data-theme="a">
-      <form action="@routes.Application.register()" method="post">
+      <form action="@routes.Application.register()" method="post" data-ajax="false">
         <h2>We need some more Information..</h2>
         <div class="ui-body ui-body-a">
           <input type="hidden" name="username" id="username" value="@loggedIn.getUsername"/>

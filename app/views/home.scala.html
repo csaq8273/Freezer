@@ -1,4 +1,4 @@
-@(skier: Skier, skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer, meetings: java.util.List[Meeting])
+@(skier: Skier,allInterests : java.util.List[Interests], skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
 
     @main("Freezer - " +skier.getUsername) {
 
@@ -58,27 +58,47 @@
                         </ul>
                     </div>
                 <div class="ui-body ui-body-a">
-                    <div data-role="fieldcontain">
-                        <label for="skiArena"><strong>Location:</strong></label>
-                        <select name="skiArena" id="skiArena" onchange="locationChanged(this.value)">
-                            <option id="0" value="">Select location...</option>
+                    <form action="@routes.Application.searchSkier()" method="post" id="search_form">
+                        <div data-role="fieldcontain">
+                            <label for="username">By Name:</label>
+                            <input type="text" name="username" id="username" placeholder="Maximilian" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="birthdate_from">Minimum age:</label>
+                            <input type="date" name="birthdate_from" id="birthdate_from" />
+                            <label for="birthdate_from">Maximum age:</label>
+                            <input type="date" name="birthdate_to" id="birthdate_to" />
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="loocation">Same Ski Arena:</label>
+                            <select name="loocation" id="loocation" data-role="slider">
+                                <option value="off">No</option>
+                                <option value="on">Yes</option>
+                            </select>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <label for="interests_switch">Interested in:</label>
+                            <select name="interests_switch" id="interests_switch" data-role="slider" onchange="switchInterests();">
+                                <option value="off">No</option>
+                                <option value="on">Yes</option>
+                            </select>
+                        </div>
+                        <div data-role="fieldcontain" id="interests_field" style="visibility: hidden;">
+                                <Legend>Set your Interests</legend>
+                                <fieldset data-role="controlgroup">
+                                @for(inter <- allInterests){
+                                    <label>@inter.getName
+                                    <input type="checkbox" name="interest_@inter.getId" id="@inter.getId" class="custom" />
+                                    </label>
+                                }
+                                </fieldset>
+                            </div>
 
-                            @for(skiArena <- skiArenas) {
-                                <option id="@skiArena.getName()" value="@skiArena.getName()">@skiArena.getName()</option>
-                            }
-                        </select>
-                    </div>
-                    <div data-role="fieldcontain">
-                        <label for="username"><strong>Freezers in <span id="curLoc">...</span>:</strong></label>
-                        <span name="freezers" id="freezers"></span>
-                    </div>
-                    <div data-role="fieldcontain">
-                        <label for="meetings"><strong>Meetings:</strong></label>
-                        <span  name="meetings" id="openMeetings" >Open: @openMeetings</span>
-                        <span  name="meetings" id="doneMeetings" >Done: @doneMeetings</span>
-                    </div>
+                        <input type="submit" value="Search">
+                    </form>
                 </div>
             </div>
+
             <div data-role="footer" data-theme="a" >
                 <a href="#" data-role="button" >Your AD here!</a>
             </div>
@@ -101,31 +121,19 @@
                     </div>
                     <div class="ui-body ui-body-a">
                         <ul data-role="listview" data-inset="true">
-                            @for(meeting <- meetings){
-                                <li data-role="list-divider">@meeting.getDate().toGMTString()</li>
-                                <li><a href="javascript:visitSkier(@meeting.getId)">
+                            @for(meeting <- skier.getMeetings){
 
+                                <li data-role="list-divider">@meeting.getDate.toGMTString</li>
+                                @for(partner <- meeting.getSkiers){
+                                    @if(skier!=partner){
+                                        <li><a href="#">
+                                            <h2>@partner.getUsername</h2>
+                                            <p>Met on @meeting.getLift.getName </p>
+                                            </a>
+                                        </li>
+                                    }
+                                }
                             }
-                            <li data-role="list-divider">Friday, October 8, 2010 <span class="ui-li-count">2</span></li>
-                            <li><a href="index.html">
-                                <h2>Stephen Weber</h2>
-                                <p><strong>You've been invited to a meeting at Filament Group in Boston, MA</strong></p>
-                                <p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
-                                <p class="ui-li-aside"><strong>6:24</strong>PM</p>
-                            </a></li>
-                            <li><a href="index.html">
-                                <h2>jQuery Team</h2>
-                                <p><strong>Boston Conference Planning</strong></p>
-                                <p>In preparation for the upcoming conference in Boston, we need to start gathering a list of sponsors and speakers.</p>
-                                <p class="ui-li-aside"><strong>9:18</strong>AM</p>
-                            </a></li>
-                            <li data-role="list-divider">Thursday, October 7, 2010 <span class="ui-li-count">1</span></li>
-                            <li><a href="index.html">
-                                <h2>Avery Walker</h2>
-                                <p><strong>Re: Dinner Tonight</strong></p>
-                                <p>Sure, let's plan on meeting at Highland Kitchen at 8:00 tonight. Can't wait! </p>
-                                <p class="ui-li-aside"><strong>4:48</strong>PM</p>
-                            </a></li>
                         </ul>
                     </div>
 
@@ -135,4 +143,32 @@
             </div>
 
         </div>
+
+
+    <div data-role="page" id="skierList" data-theme="a">
+        <div data-role="header" >
+            <h1 id="number_of_skier"></h1>
+        </div>
+        <div class="ui-content" data-theme="a">
+
+            <div data-role="navbar" data-theme="a">
+                <ul>
+                    <li><a href="#home" data-role="button" >Home</a></li>
+                    <li><a href="#createMeeting" data-role="button" >Search Meeting</a></li>
+                    <li><a href="#viewMeetings" data-role="button">View Meetings</a></li>
+
+                </ul>
+            </div>
+            <div class="ui-body ui-body-a" >
+                <ul data-role="listview" data-inset="true" id="skier_list">
+
+                </ul>
+
+            </div>
+        </div>
+        <div data-role="footer" data-theme="a">
+            <a href="#" data-role="button" >Your AD here!</a>
+        </div>
+
+    </div>
 }

@@ -50,18 +50,13 @@ public class Skiarena extends Model {
         this.name = name;
     }
 
-    private static List<Skiarena> all=null;
-    public static List<Skiarena> initSkiarenas(){
+    public static void initSkiarenas(){
         try {
             ReadExcel test = new ReadExcel();
             test.read();
         } catch (Exception e){
 e.printStackTrace();
-        } finally {
-
-            all = getAll();
         }
-        return all;
     }
 
     public static Skiarena getByName(String name){

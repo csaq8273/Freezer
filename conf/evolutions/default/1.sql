@@ -5,6 +5,7 @@
 
 create table interests (
   id                        integer not null,
+  name                      varchar(255),
   constraint pk_interests primary key (id))
 ;
 
