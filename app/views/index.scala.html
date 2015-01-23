@@ -3,11 +3,10 @@
 @main("Welcome to Freezer") {
 
     <div data-role="page" id="home" data-theme="c">
-        <div data-role="header" data-theme="c">
-            <a href="#" data-role="button" data-icon="back" data-theme="c">Quit</a>
+        <div data-role="header">
             <h1>Welcome</h1>
         </div>
-        <div data-role="content" data-theme="c" style="text-align:center;">
+        <div class="ui-content" >
             <form action="@routes.Application.login()" method="post">
                 <h2>Login</h2>
                 @if(loginResponse != "") {
@@ -15,24 +14,26 @@
                     @loginResponse
                     </p>
                 }
-                <div data-role="fieldcontain" class="ui-label">
+                <div class="ui-body ui-body-b">
+                <div data-role="fieldcontain">
                     <label for="username">Username:</label>
                     <input type="text" name="username" id="username" value="" placeholder="mustermax" />
                 </div>
-                <div data-role="fieldcontain" class="ui-label">
+                <div data-role="fieldcontain">
                     <label for="password">Password:</label>
                     <input type="password" name="password" id="password" value="" placeholder="mustermaximilian" />
                 </div>
 
-                <div data-role="fieldcontain" class="ui-label">
+                <div data-role="fieldcontain">
                     <label for="new_user">New User
                     <input type="checkbox" name="new_user" id="new_user"></label>
                 </div>
                 <input type="submit" value="Login">
+                </div>
             </form>
         </div>
-        <div data-role="footer" data-theme="c">
-            <a href="#" data-role="button" data-theme="c" style="background: URL('http://upload.wikimedia.org/wikipedia/en/3/3b/DayZ-mainpage-banner.png') repeat">Your AD here!</a>
+        <div data-role="footer" >
+            <a href="#" data-role="button" >Your AD here!</a>
         </div>
     </div>
 

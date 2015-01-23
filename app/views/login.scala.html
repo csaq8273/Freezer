@@ -2,34 +2,35 @@
 
 
 @main("Welcome "+ loggedIn.getUsername ) {
-  <div data-role="page" id="home" data-theme="c">
-    <div data-role="header" data-theme="c">
-      <a href="#" data-role="button" data-icon="back" data-theme="c">Quit</a>
+  <div data-role="page" id="home" >
+    <div data-role="header" >
       <h1>Welcome @loggedIn.getUsername</h1>
     </div>
-    <div data-role="content" data-theme="c" style="text-align:center;">
+    <div class="ui-content" >
       <form action="@routes.Application.register()" method="post">
         <h2>We need some more Information..</h2>
+        <div class="ui-body ui-body-b">
           <input type="hidden" name="username" id="username" value="@loggedIn.getUsername"/>
           <input type="hidden" name="password" id="password" placeholder="@loggedIn.getPassword" />
 
-        <div data-role="fieldcontain" class="ui-label">
+        <div data-role="fieldcontain">
           <label for="firstname">First Name:</label>
           <input type="text" name="firstname" id="firstname" placeholder="Maximilian" />
         </div>
-        <div data-role="fieldcontain" class="ui-label">
+        <div data-role="fieldcontain">
           <label for="lastname">Last Name:</label>
           <input type="text" name="lastname" id="lastname" placeholder="Mustermann" />
         </div>
-        <div data-role="fieldcontain" class="ui-label">
+        <div data-role="fieldcontain">
           <label for="birthdate">Birthdate:</label>
           <input type="date" name="birthdate" id="birthdate">
         </div>
         <input type="submit" value="Register">
+        </div>
       </form>
     </div>
-    <div data-role="footer" data-theme="c">
-      <a href="#" data-role="button" data-theme="c">Your AD here!</a>
+    <div data-role="footer" >
+      <a href="#" data-role="button" >Your AD here!</a>
     </div>
   </div>
 }
