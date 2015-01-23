@@ -4,11 +4,10 @@
 
 # Home page
 GET         /                    controllers.Application.index()
-POST        /                    controllers.Application.index()
 POST        /login               controllers.Application.login()
 GET         /home                controllers.Application.home()
 POST        /search              controllers.Application.searchSkier()
-POST        /skier               controllers.Application.visitSkier()
+POST        /skier               controllers.Application.visitSkier(Integer )
 POST        /meeting             controllers.Application.meet()
 POST        /home                controllers.Application.register()
 

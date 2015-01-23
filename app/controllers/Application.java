@@ -40,25 +40,38 @@ public class Application extends Controller {
             String key = cookie.value();
             if (key != null) {
                 Session s = Session.getById(key);
-                return Skier.FIND.byId(s.getSkierId());
-            }
-        }
-            return null;
+                Skier skier=null;
+                try {
+                    skier=Skier.FIND.byId(s.getSkierId());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                return skier;
+            } else return null;
+        } else return null;
     }
 
     public static Result index() {
         Skier loggedInSkier = authenticate();
         if(loggedInSkier!=null)
+            return redirect("/home");
+        else
+            return ok(index.render(""));
+    }
+
+    public static Result home() {
+        Skier loggedInSkier = authenticate();
+        if(loggedInSkier!=null)
             return renderHome(loggedInSkier);
-        else return ok(index.render(""));
+        else return redirect("/");
     }
 
     public static Result searchSkier(){
         Skier loggedInSkier = authenticate();
-    if(loggedInSkier!=null)
-        return redirect("/home");
+        if(loggedInSkier!=null)
+            return redirect("/home");
         else
-        return ok(index.render(""));
+            return ok(index.render(""));
     }
 
     public static Result login(){
@@ -115,35 +128,29 @@ public class Application extends Controller {
         return play.mvc.Results.TODO;
     }
 
-    public static Result visitSkier() {
+    public static Result visitSkier(int id) {
         Skier loggedInSkier = authenticate();
-
-        String location=Form.form().bindFromRequest().get("setLocation");
-        if(location != null){
-            Skiarena ss = Skiarena.getByName(location);
-            Logger.info(ss + " : " + location);
-            if(ss!=null) {
-                loggedInSkier.setCurrent_location(ss);
-                loggedInSkier.save();
-                List<Skier> inLocation=Skier.getBySkiArena(location);
-                int size=0;
-                for(Skier skier : inLocation){
-                    if(skier != loggedInSkier) size++;
-                }
-                return ok(toJson(size));
-            } else return ok(toJson(location));
-        } else {
-
+        if(id==-1) {
+            String location = Form.form().bindFromRequest().get("setLocation");
+            if (location != null) {
+                Skiarena ss = Skiarena.getByName(location);
+                if (ss != null) {
+                    loggedInSkier.setCurrent_location(ss);
+                    loggedInSkier.save();
+                    List<Skier> inLocation = Skier.getBySkiArena(location);
+                    int size = 0;
+                    for (Skier skier : inLocation) {
+                        if (skier != loggedInSkier) size++;
+                    }
+                    return ok(toJson(size));
+                } else return ok(toJson(0));
+            } else {
+                return ok(toJson(0));
+            }
         }
-        return play.mvc.Results.TODO;
+        else return play.mvc.Results.TODO;
     }
 
-    public static Result home() {
-        Skier loggedInSkier = authenticate();
-        if(loggedInSkier!=null)
-            return renderHome(loggedInSkier);
-        else return ok(index.render(""));
-    }
 
     private static Result renderHome(Skier loggedInSkier){
         int openMeetings=0;

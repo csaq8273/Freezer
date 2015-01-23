@@ -14,10 +14,7 @@ function locationChanged(location){
     $("#curLoc" ).html(location);
 }
 
+
 $(document).ready(function(){
-    if($("#username").length!=0)
-    location.href="/home";
-
-
 
 });

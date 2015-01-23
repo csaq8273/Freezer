@@ -2,14 +2,14 @@
 
 
 @main("Welcome "+ loggedIn.getUsername ) {
-  <div data-role="page" id="home" >
-    <div data-role="header" >
+  <div data-role="page" id="home" data-theme="a">
+    <div data-role="header" data-theme="a">
       <h1>Welcome @loggedIn.getUsername</h1>
     </div>
-    <div class="ui-content" >
+    <div class="ui-content" data-theme="a">
       <form action="@routes.Application.register()" method="post">
         <h2>We need some more Information..</h2>
-        <div class="ui-body ui-body-b">
+        <div class="ui-body ui-body-a">
           <input type="hidden" name="username" id="username" value="@loggedIn.getUsername"/>
           <input type="hidden" name="password" id="password" placeholder="@loggedIn.getPassword" />
 
@@ -29,7 +29,7 @@
         </div>
       </form>
     </div>
-    <div data-role="footer" >
+    <div data-role="footer" data-theme="a">
       <a href="#" data-role="button" >Your AD here!</a>
     </div>
   </div>

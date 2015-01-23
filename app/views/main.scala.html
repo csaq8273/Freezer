@@ -7,11 +7,13 @@
         <title>@title</title>
         <link rel="shortcut icon" type="images/ico" href="@routes.Assets.at("images/favicon.ico")">
         <link rel="stylesheet" href="@routes.Assets.at("templates/jquery.mobile-1.4.5.css")" >
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
         <script type="text/javascript" src="@routes.Assets.at("templates/jquery-2.1.3.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("templates/jquery.mobile-1.4.5.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("templates/application.js")"></script>
     </head>
-    <body>
+    <body >
         @content
     </body>
 </html>
