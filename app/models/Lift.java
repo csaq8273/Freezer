@@ -2,8 +2,7 @@ package models;
 
 import play.db.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,10 @@ public class Lift extends Model{
     private int id;
 
     private String name;
+    
+    @ManyToOne
     private Skiarena ski_arena;
+    
     private int seats;
 
     public static final Model.Finder<Integer, Lift> FIND = new Model.Finder<Integer, Lift>(Integer.class,

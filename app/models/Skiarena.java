@@ -25,6 +25,9 @@ public class Skiarena extends Model {
     @OneToMany(mappedBy = "current_location")
     private Set<Skier> skiers;
 
+    @OneToMany(mappedBy = "ski_arena")
+    private List<Lift> lifts;
+    
     public static final Model.Finder<Integer, Skiarena> FIND = new Model.Finder<Integer, Skiarena>(Integer.class,
             Skiarena.class);
 

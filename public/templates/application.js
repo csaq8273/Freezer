@@ -23,13 +23,19 @@ function switchInterests(){
 
 $(document).on('submit', '#search_form', function(e) {
     e.preventDefault();
-    postForm();
+    postSearch();
 });
+
+$(document).on('submit', '#meet_form', function(e) {
+    e.preventDefault();
+    postMeet();
+});
+
 
 $.mobile.popup.prototype.options.history = false;
 
 
-function postForm(){
+function postSearch(){
     $.ajax({
         type: "post",
         url: "/search",
@@ -43,7 +49,7 @@ function postForm(){
                 $("#number_of_skier").html(response.length + " Skiers found");
                 $("#skier_list").html("");
 
-                response.forEach(function(entry) {
+                response.forEach(function(entry) {					
                     var birth=new Date(entry.birthdate);
                     var interests="";
                     if(entry.interests.length==0) interests+="nothing";
@@ -61,6 +67,24 @@ function postForm(){
                     '                            </li>');
                     location.href="#skierList";
                 });
+            }
+        }
+    });
+}
+
+
+function postMeet(){
+    $.ajax({
+        type: "post",
+        url: "/meeting/"+$("#otherSkier").val(),
+        data: $('#meet_form').serialize(),
+        dataType: 'json',
+        success: function(response, textStatus, XMLHttpRequest) {
+            if (response.error) {
+                console.log('ERROR: ' + response.error);
+            } else {
+                mediaSource = response.url;
+                location.href= response.url;
             }
         }
     });

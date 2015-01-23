@@ -14,25 +14,35 @@ import java.util.List;
 public class Meeting extends Model{
 
     @Id
-    private String id;
+    private Integer id;
 
     @ManyToMany
     private List<Skier> skiers;
+    
+    
     private Lift lift;
+    
     private Date date;
+    
+    public static final Model.Finder<Integer, Meeting> FIND = new Model.Finder<Integer, Meeting>(Integer.class,
+    		Meeting.class);
 
     // Default constructor
-    public Meeting(Lift lift , List<Skier> skiers) {
+    public Meeting(Lift lift , List<Skier> skiers, Date date) {
+    	this.id=Meeting.getMaxId();
+    	if(this.id==0)
+    	this.id=Integer.valueOf(1);
+    	
         this.skiers=skiers;
         this.lift=lift;
-        this.date = new Date();
+        this.date = date;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,5 +68,18 @@ public class Meeting extends Model{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+    
+    public static List<Meeting> getAll()
+    {
+        return FIND.all();
+    }
+
+    public static int getMaxId(){
+        int maxid=0;
+        for (Meeting ski : getAll()) {
+            if (ski.getId() > maxid) maxid = ski.getId();
+        }
+        return maxid;
     }
 }

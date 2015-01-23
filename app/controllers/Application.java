@@ -135,13 +135,31 @@ public class Application extends Controller {
 
     public static Result meet(Integer id) {
         Skier loggedInSkier = authenticate();
-        String newMeeting = Form.form().bindFromRequest().get("request");
+        String newMeeting = Form.form().bindFromRequest().get("time");
         if(loggedInSkier.getCurrent_location()==null){
-            return redirect("/");
+            return redirect("/home");
         } else {
             if (newMeeting != null) {
+            	List<Skier> skierList=new ArrayList<Skier>();
+            	skierList.add(loggedInSkier);
+            	skierList.add(Skier.FIND.byId(id));
+                String lift = Form.form().bindFromRequest().get("lift");
+                String time = Form.form().bindFromRequest().get("time");
+            	
+                DateFormat df = new SimpleDateFormat("HH:mm");
+                try{
+                	Meeting m = new Meeting(Lift.getByName(lift),skierList,df.parse(time));
+                	m.save();
+            	} catch (Exception e){
+//            		List<> jsn=new ArrayList<>();
+//            		jsn.add(toJson(skierList));
+//            		jsn.add(toJson(m));
+//            		jsn.add(toJson(lift));
+//            		jsn.add(toJson(e));
 
-                return ok(toJson(loggedInSkier));
+                	return ok(toJson(e));
+                }
+                return redirect("/home#viewMeetings");
 
             } else {
                 return ok(meeting.render(loggedInSkier, Skier.FIND.byId(id), Lift.getBySkiarena(loggedInSkier.getCurrent_location().getName())));

@@ -12,12 +12,13 @@ create table interests (
 create table lift (
   id                        integer not null,
   name                      varchar(255),
+  ski_arena_id              integer,
   seats                     integer,
   constraint pk_lift primary key (id))
 ;
 
 create table meeting (
-  id                        varchar(255) not null,
+  id                        integer not null,
   date                      timestamp,
   constraint pk_meeting primary key (id))
 ;
@@ -54,7 +55,7 @@ create table interests_skier (
 ;
 
 create table meeting_skier (
-  meeting_id                     varchar(255) not null,
+  meeting_id                     integer not null,
   skier_id                       integer not null,
   constraint pk_meeting_skier primary key (meeting_id, skier_id))
 ;
@@ -67,7 +68,7 @@ create table skier_interests (
 
 create table skier_meeting (
   skier_id                       integer not null,
-  meeting_id                     varchar(255) not null,
+  meeting_id                     integer not null,
   constraint pk_skier_meeting primary key (skier_id, meeting_id))
 ;
 create sequence interests_seq;
@@ -82,8 +83,10 @@ create sequence skiarena_seq;
 
 create sequence skier_seq;
 
-alter table skier add constraint fk_skier_current_location_1 foreign key (current_location_id) references skiarena (id) on delete restrict on update restrict;
-create index ix_skier_current_location_1 on skier (current_location_id);
+alter table lift add constraint fk_lift_ski_arena_1 foreign key (ski_arena_id) references skiarena (id) on delete restrict on update restrict;
+create index ix_lift_ski_arena_1 on lift (ski_arena_id);
+alter table skier add constraint fk_skier_current_location_2 foreign key (current_location_id) references skiarena (id) on delete restrict on update restrict;
+create index ix_skier_current_location_2 on skier (current_location_id);
 
 
 

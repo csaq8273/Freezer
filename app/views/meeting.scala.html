@@ -11,7 +11,7 @@
   <div role="main" class="ui-content">
     <h1>Meeting with @otherSkier.getFirstname()</h1>
     <p>At witch Lift do you want to meet @otherSkier.getFirstname() and when?</p>
-    <form action="@routes.Application.meet(otherSkier.getId())" method="post">
+    <form action="@routes.Application.meet(otherSkier.getId())" method="post" id="meet_form">
       <select name="lift" id="lift">
         <option id="0" value="">Select Lift...</option>
 
@@ -19,6 +19,7 @@
           <option id="@lift.getId()" value="@lift.getId()">@lift.getName() with @lift.getSeats() Seats.</option>
         }
       </select>
+      <input type="hidden" name="otherSkier" id="otherSkier" value="@otherSkier.getId()"/>
       <input type="time" name="time" id="time" >
       <input type="submit" value="Request Meeting" >
     </form>
