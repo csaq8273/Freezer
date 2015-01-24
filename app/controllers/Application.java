@@ -44,12 +44,12 @@ public class Application extends Controller {
     private static Result renderHome(Skier loggedInSkier){
         int openMeetings=0;
         int doneMeetings=0;
-        for(Meeting m : loggedInSkier.getMeetings()){
+        for(Meeting m : Meeting.getBySkier(loggedInSkier)){
             if(m.getDate().before(new Date())){
                 doneMeetings++;
             } else openMeetings++;
         }
-        return ok(home.render(loggedInSkier,Interests.getAll(),Skiarena.getAll(),Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings)));
+        return ok(home.render(loggedInSkier,Interests.getAll(),Skiarena.getAll(),Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings),Meeting.getBySkier(loggedInSkier)));
     }
 
     public static Result searchSkier(){
@@ -106,13 +106,14 @@ public class Application extends Controller {
             skierList.add(Skier.FIND.byId(id));
             String lift = Form.form().bindFromRequest().get("lift");
             DateFormat df = new SimpleDateFormat("HH:mm");
-                    try {
-                        Meeting m = new Meeting(Lift.getByName(lift), skierList, df.parse(time));
+            Meeting m;
+            try {
+                        m= new Meeting(Lift.getByName(lift), skierList, new Date(new Date().getTime() + df.parse(time).getTime()));
                         m.save();
                     } catch (Exception e) {
                         return ok(toJson(e));
                     }
-                    return redirect("/home#viewMeetings");
+            return ok(toJson(Meeting.getBySkier(loggedInSkier)));
 
 
 

@@ -59,10 +59,10 @@ public class Skier extends Model{
         String username = Form.form().bindFromRequest().get("username");
         String birthdate_to = Form.form().bindFromRequest().get("birthdate_to");
         String birthdate_from = Form.form().bindFromRequest().get("birthdate_from");
-        String location = Form.form().bindFromRequest().get("loocation");
+        String location = Form.form().bindFromRequest().get("location");
         if (location.equals("on") && loggedInSkier.getCurrent_location() != null)
             location = loggedInSkier.getCurrent_location().getName();
-        else location =null;
+        else location = null;
         int from=Integer.MIN_VALUE;
         int to=Integer.MAX_VALUE;
         try{ from=Integer.parseInt(birthdate_from);} catch(Exception e){}
@@ -81,7 +81,7 @@ public class Skier extends Model{
         }
         List<Skier> result=new ArrayList<Skier>();
 
-        if (username.isEmpty())
+        if (username.length()==0)
             result= Skier.searchByAttributes(location, from, to, myInterests);
         else{
             result =Skier.searchByUsername(username);
@@ -89,7 +89,6 @@ public class Skier extends Model{
 
         if(result==null)
             result=new ArrayList<Skier>();
-
         if(result.contains(loggedInSkier))
             result.remove(loggedInSkier);
         return result;
@@ -108,22 +107,22 @@ public class Skier extends Model{
         if(interests.size()!= 0) attributes+=4;
         switch(attributes){
 
-            case 1: return getBySkiArena(getAll(),arena);
+            case 1: return searchBySkiArena(getAll(), arena);
             case 2: return searchByAgeFromTo(from, to);
-            case 3: return getBySkiArena(searchByAgeFromTo(from, to), arena);
+            case 3: return searchBySkiArena(searchByAgeFromTo(from, to), arena);
             case 4: return searchByInterests(interests);
-            case 5: return getBySkiArena(searchByInterests(interests), arena);
+            case 5: return searchBySkiArena(searchByInterests(interests), arena);
             case 6: return searchByInterests(searchByAgeFromTo(from, to), interests);
-            case 7: return searchByInterests(getBySkiArena(searchByAgeFromTo(from, to), arena), interests);
+            case 7: return searchByInterests(searchBySkiArena(searchByAgeFromTo(from, to), arena), interests);
             default:return getAll();
         }
     }
 
     public static List<Skier> searchBySkiArena(String arena){
-        return getBySkiArena(getAll(),arena);
+        return searchBySkiArena(getAll(), arena);
     }
 
-    private static List<Skier> getBySkiArena(List<Skier> skier, String arena) {
+    private static List<Skier> searchBySkiArena(List<Skier> skier, String arena) {
         List<Skier> byArena = new ArrayList<Skier>();
         for (Skier s : skier) {
             if (s.getCurrent_location() != null && s.getCurrent_location().getName().equals(arena)) byArena.add(s);
@@ -131,15 +130,20 @@ public class Skier extends Model{
         return byArena;
     }
 
-    public static List<Skier> searchByAgeFromTo(int from, int to) {
+    public static List<Skier> searchByAgeFromTo(long from, long to) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
+        long year=1000*60*60*24*365;
         try {
-            return FIND.where().between("date",
-                    df.parse(today.getYear() - from + "-" + (today.getDay() < 10 ? "0" + today.getDay() : today.getDay()) + "-" + (today.getMonth() < 10 ? "0" + today.getMonth() : today.getMonth())),
-                    df.parse(today.getYear() - from + "-" + (today.getDay() < 10 ? "0" + today.getDay() : today.getDay()) + "-" + (today.getMonth() < 10 ? "0" + today.getMonth() : today.getMonth()))).findList();
-
+            List<Skier> result = new ArrayList<>();
+            for(Skier s : getAll()){
+                if(s.getBirthdate().getTime() < today.getTime() - (from * year) && s.getBirthdate().getTime() >  today.getTime() - (to*year)){
+                    result.add(s);
+                }
+            }
+            return result;
         } catch (Exception e){
+            e.printStackTrace();
             return new ArrayList<Skier>();
         }
     }
@@ -219,5 +223,9 @@ public class Skier extends Model{
 
     public boolean isIs_online() {
         return is_online;
+    }
+
+    public void addMeeting(Meeting m) {
+        meetings.add(m);
     }
 }

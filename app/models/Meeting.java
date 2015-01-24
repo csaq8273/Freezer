@@ -7,6 +7,7 @@ package models;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,5 +79,15 @@ public class Meeting extends Model{
             if (ski.getId() > maxid) maxid = ski.getId();
         }
         return maxid;
+    }
+
+    public static List<Meeting> getBySkier(Skier skier) {
+        List<Meeting> result = new ArrayList<>();
+        for(Meeting m : getAll()){
+            for(Skier s : m.getSkiers()){
+                if(s.equals(skier)) result.add(m);
+            }
+        }
+        return result;
     }
 }

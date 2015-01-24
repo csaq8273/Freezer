@@ -8,8 +8,8 @@ POST        /login               controllers.Application.login()
 GET         /home                controllers.Application.home()
 POST        /search              controllers.Application.searchSkier()
 POST        /skier               controllers.Application.visitSkier()
-POST        /meeting/:id         controllers.Application.meeting(id : Integer)
-GET         /meet/:id            controllers.Application.meet(id : Integer)
+GET         /meeting/:id         controllers.Application.meeting(id : Integer)
+POST        /meet/:id            controllers.Application.meet(id : Integer)
 POST        /home                controllers.Application.register()
 
 # Map static resources from the /public folder to the /assets URL path

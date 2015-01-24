@@ -11,7 +11,7 @@ function locationChanged(location){
         url: "/skier",
         data: {"setLocation" : location},
         success: function(data){
-            $("#freezers" ).html(data+ "other Freezers.");
+            $("#freezers" ).html(data+ " other Freezers.");
         }
     });
     $("#curLoc" ).html(location);
@@ -88,7 +88,7 @@ function postSearch(){
 function postMeet(){
     $.ajax({
         type: "post",
-        url: "/meeting/"+$("#otherSkier").val(),
+        url: "/meet/"+$("#otherSkier").val(),
         data: $('#meet_form').serialize(),
         dataType: 'json',
         success: function(response, textStatus, XMLHttpRequest) {
@@ -96,7 +96,7 @@ function postMeet(){
                 console.log('ERROR: ' + response.error);
             } else {
                 mediaSource = response.url;
-                location.href= response.url;
+
             }
         }
     });

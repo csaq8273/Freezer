@@ -1,9 +1,8 @@
-@(skier: Skier, allInterests : java.util.List[Interests], skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
+@(skier: Skier, allInterests : java.util.List[Interests], skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer, meetings :java.util.List[Meeting])
 
     @main("Freezer - " +skier.getUsername) {
 
         <div data-role="page" id="home" data-theme="a" >
-
             <div data-role="header" data-theme="a">
                 <h1>@skier.getFirstname()'s Freezer</h1>
             </div>
@@ -82,8 +81,8 @@
                             <input type="number" name="birthdate_to" id="birthdate_to" />
                         </div>
                         <div data-role="fieldcontain">
-                            <label for="loocation">Same Ski Arena:</label>
-                            <select name="loocation" id="loocation" data-role="slider">
+                            <label for="location">Same Ski Arena:</label>
+                            <select name="location" id="location" data-role="slider">
                                 <option value="off">No</option>
                                 <option value="on">Yes</option>
                             </select>
@@ -133,7 +132,7 @@
                     </div>
                     <div class="ui-body ui-body-a">
                         <ul data-role="listview" data-inset="true">
-                            @for(meeting <- skier.getMeetings){
+                            @for(meeting <- meetings){
 
                                 <li data-role="list-divider">@meeting.getDate.toGMTString</li>
                                 @for(partner <- meeting.getSkiers){
