@@ -25,7 +25,7 @@ public class Interests extends Model {
     private List<Skier> skier;
 
     public Interests (String name){
-        this.id=getMaxId();
+        this.id=getMaxId() +1 ;
         this.name=name;
     }
 
@@ -44,7 +44,7 @@ public class Interests extends Model {
         for (Interests interest : getAll()) {
             if (interest.getId() > maxid) maxid = interest.getId();
         }
-        return maxid+1;
+        return maxid;
     }
 
     public int getId() {

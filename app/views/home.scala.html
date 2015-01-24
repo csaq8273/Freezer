@@ -1,4 +1,4 @@
-@(skier: Skier,allInterests : java.util.List[Interests], skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
+@(skier: Skier, allInterests : java.util.List[Interests], skiArenas: java.util.List[Skiarena], openMeetings: Integer, doneMeetings: Integer)
 
     @main("Freezer - " +skier.getUsername) {
 
@@ -12,7 +12,7 @@
                 <div data-role="navbar" >
                     <ul>
                         <li><a href="#" data-role="button" class="ui-btn-active" >Home</a></li>
-                        <li><a href="#createMeeting" data-role="button" >Search Meeting</a></li>
+                        <li><a href="#createMeeting" data-role="button" >Create Meeting</a></li>
                         <li><a href="#viewMeetings" data-role="button" >View Meetings</a></li>
 
                     </ul>
@@ -24,9 +24,20 @@
                             <option id="0" value="">Select location...</option>
 
                             @for(skiArena <- skiArenas) {
-                                <option id="@skiArena.getName()" value="@skiArena.getName()">@skiArena.getName()</option>
+                                @if(skier.getCurrent_location()!=null && skiArena == skier.getCurrent_location()){
+                                    <option id="@skiArena.getName()" value="@skiArena.getName()" selected>@skiArena.getName()</option>
+                                } else {
+                                    <option id="@skiArena.getName()" value="@skiArena.getName()">@skiArena.getName()</option>
+                                }
                             }
                         </select>
+                        <script type="text/javascript">
+                            $(document ).ready(function(){
+                               @if(skier.getCurrent_location()!=null){
+                                    locationChanged($("#skiArena").val());
+                                }
+                            });
+                        </script>
                     </div>
                     <div data-role="fieldcontain">
                         <label for="username"><strong>Freezers in <span id="curLoc">...</span>:</strong></label>
@@ -46,28 +57,29 @@
 
         <div data-role="page" id="createMeeting" data-theme="a">
             <div data-role="header" >
-                <h1>Search a new Meeting</h1>
+                <h1>Search Skier</h1>
             </div>
             <div class="ui-content" data-theme="a">
                     <div data-role="navbar" >
                         <ul>
                             <li><a href="#home" data-role="button"  >Home</a></li>
-                            <li><a href="#" data-role="button" class="ui-btn-active" >Search Meeting</a></li>
+                            <li><a href="#" data-role="button" class="ui-btn-active" >Create Meeting</a></li>
                             <li><a href="#viewMeetings" data-role="button" >View Meetings</a></li>
 
                         </ul>
                     </div>
                 <div class="ui-body ui-body-a">
                     <form action="@routes.Application.searchSkier()" method="post" id="search_form">
+                        <input type="hidden" name="all" value="true">
                         <div data-role="fieldcontain">
                             <label for="username">By Name:</label>
                             <input type="text" name="username" id="username" placeholder="Maximilian" />
                         </div>
                         <div data-role="fieldcontain">
                             <label for="birthdate_from">Minimum age:</label>
-                            <input type="date" name="birthdate_from" id="birthdate_from" />
+                            <input type="number" name="birthdate_from" id="birthdate_from" />
                             <label for="birthdate_from">Maximum age:</label>
-                            <input type="date" name="birthdate_to" id="birthdate_to" />
+                            <input type="number" name="birthdate_to" id="birthdate_to" />
                         </div>
                         <div data-role="fieldcontain">
                             <label for="loocation">Same Ski Arena:</label>
@@ -114,7 +126,7 @@
                     <div data-role="navbar" data-theme="a">
                         <ul>
                             <li><a href="#home" data-role="button" >Home</a></li>
-                            <li><a href="#createMeeting" data-role="button" >Search Meeting</a></li>
+                            <li><a href="#createMeeting" data-role="button" >Create Meeting</a></li>
                             <li><a href="#" data-role="button" class="ui-btn-active" >View Meetings</a></li>
 
                         </ul>
@@ -154,7 +166,7 @@
             <div data-role="navbar" data-theme="a">
                 <ul>
                     <li><a href="#home" data-role="button" >Home</a></li>
-                    <li><a href="#createMeeting" data-role="button" >Search Meeting</a></li>
+                    <li><a href="#createMeeting" data-role="button" >Create Meeting</a></li>
                     <li><a href="#viewMeetings" data-role="button">View Meetings</a></li>
 
                 </ul>

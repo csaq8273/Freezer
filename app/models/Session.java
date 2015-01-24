@@ -1,9 +1,13 @@
 package models;
 
+import play.data.Form;
 import play.db.ebean.Model;
+import play.mvc.Http;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -26,22 +30,60 @@ public class Session extends Model {
         this.skierId = skierId;
     }
 
-    public int getSkierId() {
-        return skierId;
+    public static Skier authenticateSession(Http.Cookie sessionCookie){
+
+        if(sessionCookie != null) {
+            String key = sessionCookie.value();
+            if (key != null) {
+                Session s = Session.getById(key);
+                if(s!=null) {
+                    Skier skier = null;
+                    try {
+                        skier = Skier.FIND.byId(s.getSkierId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                    return skier;
+                }
+            }
+        }
+        return null;
     }
 
-    public void setSkierId(int skierId) {
-        this.skierId = skierId;
+
+    public static Skier authenticate(String username, String password) {
+        Skier result=null;
+        try{
+            result=Skier.FIND.where().eq("username",username).eq("password",password).findUnique();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return result;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public static Skier register() {
+        String username = Form.form().bindFromRequest().get("username");
+        String password = Form.form().bindFromRequest().get("password");
+        String firstname = Form.form().bindFromRequest().get("firstname");
+        String lastname = Form.form().bindFromRequest().get("lastname");
+        String birthdate = Form.form().bindFromRequest().get("birthdate");
+        try {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
+            Skier skier = new Skier(username, password, firstname, lastname, df.parse(birthdate));
+            skier.save();
+
+            return skier;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
     public static Session getById(String id){
         return FIND.byId(id);
     }
@@ -49,6 +91,10 @@ public class Session extends Model {
     public static List<Session> getAll()
     {
         return FIND.all();
+    }
+
+    public int getSkierId() {
+        return skierId;
     }
 
 }

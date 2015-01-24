@@ -29,7 +29,7 @@ public class Lift extends Model{
 
     // Constructor which sets the location to the specified parameters
     public Lift(String name, Skiarena ski_arena, int seats) {
-
+        this.id=getMaxId()+1;
         this.name = name;
         this.seats = seats;
         this.ski_arena = ski_arena;

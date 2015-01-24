@@ -29,10 +29,7 @@ public class Meeting extends Model{
 
     // Default constructor
     public Meeting(Lift lift , List<Skier> skiers, Date date) {
-    	this.id=Meeting.getMaxId();
-    	if(this.id==0)
-    	this.id=Integer.valueOf(1);
-    	
+    	this.id=getMaxId()+1;
         this.skiers=skiers;
         this.lift=lift;
         this.date = date;

@@ -1,13 +1,11 @@
 package models;
 
-import controllers.Application;
 import play.db.ebean.Model;
 import reader.ReadExcel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SecondaryTable;
 import java.util.List;
 import java.util.Set;
 
@@ -32,8 +30,8 @@ public class Skiarena extends Model {
             Skiarena.class);
 
 
-    public Skiarena(int id, String name){
-        this.id=id;
+    public Skiarena(String name){
+        this.id=getMaxId()+1;
         this.name=name;
     }
 
@@ -76,6 +74,6 @@ e.printStackTrace();
         for (Skiarena ski : getAll()) {
             if (ski.getId() > maxid) maxid = ski.getId();
         }
-        return maxid+1;
+        return maxid;
     }
 }

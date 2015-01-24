@@ -4,20 +4,15 @@ package reader;
  * Created by Ivan on 21.01.2015.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import jxl.Cell;
-import jxl.CellType;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import models.Lift;
 import models.Skiarena;
 import play.Play;
-import play.db.ebean.Model;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ReadExcel {
 
@@ -49,8 +44,6 @@ public class ReadExcel {
     }
 
     private void readRows(Sheet sheet) {
-        Skiarena test= new Skiarena(1000,"");
-        test.save();
         for (int i = rows; i < sheet.getRows(); i++) {
             String name=sheet.getCell(nameColumn,i).getContents();
             String skiarena=sheet.getCell(skiColumn,i).getContents();
@@ -60,7 +53,7 @@ public class ReadExcel {
             } catch (Exception e){
                 seats=0;
             }
-            Skiarena s= new Skiarena(Skiarena.getMaxId(),skiarena);
+            Skiarena s= new Skiarena(skiarena);
             Skiarena sList=Skiarena.getByName(skiarena);
             if(sList!=null)
                 s=sList;
