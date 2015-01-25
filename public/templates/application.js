@@ -71,7 +71,7 @@ function postSearch(){
                         $("#skier_list").append('<a href="javascript:getMeet(' + entry.id + ')" data-role="button" > <li data-role="list-divider">' + entry.username + '</li>' +
                         '                    <li>' +
                         '                        <h2>' + entry.firstname + ' ' + entry.lastname + '</h2> ' +
-                        '                        <p>' + birth.getYear() + ' Years old. ' + ((entry.current_location == null) ? 'offline' : 'Currently at ' + entry.current_location.name) + '</p>' +
+                        '                        <p>' + (new Date().getYear() - birth.getYear()) + ' Years old. ' + ((entry.current_location == null) ? 'offline' : 'Currently at ' + entry.current_location.name) + '</p>' +
                         '                        <p>Interested in ' + interests + '</p>' +
                         '                            ' +
                         '                            </li></a>');
@@ -143,6 +143,44 @@ function requestMeeting(id,lift){
             }
         }
     });
+}
+
+function checkDate(){
+    if($("#birthdate").val().length==10){
+        $("#birthdate").css({"background":"#04B404"});
+    } else         $("#birthdate").css({"background":"#f00"});
+
+}
+
+function changeInterestsHome(){
+    if($("#interests_field_home").css("visibility")=="hidden"){
+        $("#interests_field_home").css({"visibility":"visible"})
+    } else {
+        $("#interests_field_home").css({"visibility":"hidden"})
+    }
+}
+
+function setInterests(){
+    $.ajax({
+        type: "post",
+        url: "/search",
+        data: $($("form")[0]).serialize(),
+        dataType: 'json',
+        success: function (response, textStatus, XMLHttpRequest) {
+            if (response.error) {
+                console.log('ERROR: ' + response.error);
+            } else {
+                mediaSource = response.url;
+                location.reload();
+
+            }
+        }
+    });
+}
+
+function logout(){
+    document.cookie="freezersession=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    location.reload();
 }
 
 $(document).ready(function(){

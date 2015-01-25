@@ -80,12 +80,15 @@ public class Skier extends Model{
             loggedInSkier.save();
         }
         List<Skier> result=new ArrayList<Skier>();
-
-        if (username.length()==0)
-            result= Skier.searchByAttributes(location, from, to, myInterests);
-        else{
-            result =Skier.searchByUsername(username);
+    try {
+        if (username.length() == 0)
+            result = Skier.searchByAttributes(location, from, to, myInterests);
+        else {
+            result = Skier.searchByUsername(username);
         }
+    } catch(Exception e){
+
+    }
 
         if(result==null)
             result=new ArrayList<Skier>();

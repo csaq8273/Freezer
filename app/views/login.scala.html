@@ -23,7 +23,7 @@
         </div>
         <div data-role="fieldcontain">
           <label for="birthdate">Birthdate:</label>
-          <input type="date" name="birthdate" tabindex="3" id="birthdate">
+          <input type="date" name="birthdate" min="1900-00-00" max="2010-00-00" placeholder="2000-00-00" onkeyup="checkDate()" tabindex="3" id="birthdate">
         </div>
         <input type="submit" value="Register">
         </div>

@@ -72,6 +72,17 @@ public class Session extends Model {
         String firstname = Form.form().bindFromRequest().get("firstname");
         String lastname = Form.form().bindFromRequest().get("lastname");
         String birthdate = Form.form().bindFromRequest().get("birthdate");
+        String [] birthpunkt = birthdate.split(".");
+
+        if(birthpunkt.length!=3) {
+           birthpunkt = birthdate.split("-");
+        }
+        if (birthpunkt[0].length() > 2) {
+            birthdate=birthpunkt[0]+"-"+(birthpunkt[1].length()==1?"0"+birthpunkt[1]:birthpunkt[1])+"-"+((birthpunkt[2].length()==1)?"0"+birthpunkt[2]:birthpunkt[2]);
+        }else {
+            birthdate=birthpunkt[2]+"-"+(birthpunkt[1].length()==1?"0"+birthpunkt[1]:birthpunkt[1])+"-"+((birthpunkt[0].length()==1)?"0"+birthpunkt[0]:birthpunkt[0]);
+
+        }
         try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -80,7 +91,7 @@ public class Session extends Model {
 
             return skier;
         }catch (Exception e){
-            e.printStackTrace();
+                 e.printStackTrace();
             return null;
         }
 

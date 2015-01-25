@@ -75,7 +75,7 @@ public class Application extends Controller {
                 return badRequest(index.render("Invalid Username or Password"));
             } else {
                 login(s);
-                return renderHome(s);
+                return redirect("/home");
             }
         }
     }
@@ -159,4 +159,7 @@ public class Application extends Controller {
     }
 
 
+    public static Result loginFail() {
+        return redirect("/");
+    }
 }

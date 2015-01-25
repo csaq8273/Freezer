@@ -5,6 +5,7 @@
 # Home page
 GET         /                    controllers.Application.index()
 POST        /login               controllers.Application.login()
+GET         /login               controllers.Application.loginFail()
 GET         /home                controllers.Application.home()
 POST        /search              controllers.Application.searchSkier()
 POST        /skier               controllers.Application.visitSkier()

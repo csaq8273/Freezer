@@ -8,6 +8,7 @@
             </script>
             <div data-role="header" data-theme="a">
                 <h1>@skier.getFirstname()'s Freezer</h1>
+                <a href="javascript:logout()" data-type="button" data-icon="back">Log Out</a>
             </div>
             <div class="ui-content" data-theme="a" >
 
@@ -50,12 +51,30 @@
                         <span  name="meetings" id="openMeetings" >Open: @openMeetings</span>
                         <span  name="meetings" id="doneMeetings" >Done: @doneMeetings</span>
                     </div>
-                    <div data-role="fieldcontain">
+                    <div data-role="fieldcontain" title="Change interests" >
                         <label for="interests"><strong>Interests:</strong></label>
                         <span  name="interests" id="interests" >@for(inter <- skier.getInterests){
                             @inter.getName(),
                         }</span>
+                        <input type="button" value="Set Interests" onclick="changeInterestsHome()">
                     </div>
+                    <form action="@routes.Application.searchSkier()" method="post" id="interests">
+                        <input type="hidden" name="location" value="off">
+                        <input type="hidden" name="interests_switch" value="on">
+
+                        <div data-role="fieldcontain" id="interests_field_home" style="visibility: hidden;">
+                        <Legend>Set your Interests</legend>
+                        <fieldset data-role="controlgroup">
+                        @for(inter <- allInterests){
+                            <label>@inter.getName
+                            <input type="checkbox" name="interest_@inter.getId" id="@inter.getId" class="custom" />
+                            </label>
+                        }
+                        </fieldset>
+                        <input type="button" value="Set" onclick="setInterests()">
+                    </div>
+                        </form>
+
                 </div>
             </div>
             <div data-role="footer" data-theme="a">
