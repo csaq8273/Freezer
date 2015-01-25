@@ -1,9 +1,12 @@
 /**
  * Created by Ivan on 22.01.2015.
  */
+
 import models.Interests;
 import models.Skiarena;
-import play.*;
+import play.Application;
+import play.GlobalSettings;
+import play.Logger;
 
 public class Global extends GlobalSettings {
     public void onStart(Application app) {
@@ -25,6 +28,7 @@ public class Global extends GlobalSettings {
             new Interests("Games").save();
         }
     }
+
 
     public void onStop(Application app) {
         Logger.info("Application shutdown...");
