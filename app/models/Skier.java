@@ -1,6 +1,8 @@
 package models;
 
 /**
+ * Skier Model
+ *
  * Created by BlackMark on 18/01/2015.
  */
 
@@ -55,6 +57,12 @@ public class Skier extends Model{
 
     }
 
+    /**
+     * Search skier by the Search Formular
+     *
+     * @param loggedInSkier
+     * @return List of matched Skier
+     */
     public static List<Skier> search(Skier loggedInSkier) {
         String username = Form.form().bindFromRequest().get("username");
         String birthdate_to = Form.form().bindFromRequest().get("birthdate_to");
@@ -98,10 +106,25 @@ public class Skier extends Model{
     }
 
 
+    /**
+     * Search Skier by username
+     *
+     * @param username
+     * @return List of matched Skier
+     */
     public static List<Skier> searchByUsername(String username){
         return FIND.where().icontains("username", username).findList();
     }
 
+    /**
+     * Search Skier by location, age and interests
+     *
+     * @param arena
+     * @param from years
+     * @param to years
+     * @param interests
+     * @return List of matched Skier
+     */
     public static List<Skier> searchByAttributes(String arena, int from, int to, List<Interests> interests){
         List<Skier> byAttribute = new ArrayList<Skier>();
         int attributes=0;
@@ -121,10 +144,23 @@ public class Skier extends Model{
         }
     }
 
+    /**
+     * Search skier by Location
+     *
+     * @param arena
+     * @return List of matched Skier
+     */
     public static List<Skier> searchBySkiArena(String arena){
         return searchBySkiArena(getAll(), arena);
     }
 
+    /**
+     * Search Skier by Location in a given List
+     *
+     * @param skier
+     * @param arena
+     * @return List of matched Skier
+     */
     private static List<Skier> searchBySkiArena(List<Skier> skier, String arena) {
         List<Skier> byArena = new ArrayList<Skier>();
         for (Skier s : skier) {
@@ -133,6 +169,13 @@ public class Skier extends Model{
         return byArena;
     }
 
+    /**
+     * Search Skier by age
+     *
+     * @param from
+     * @param to
+     * @return List of matched Skier
+     */
     public static List<Skier> searchByAgeFromTo(long from, long to) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
@@ -151,10 +194,23 @@ public class Skier extends Model{
         }
     }
 
+    /**
+     * Search Skier by Interests
+     *
+     * @param interests
+     * @return List of matched Skier
+     */
     public static List<Skier> searchByInterests(List<Interests> interests) {
         return searchByInterests(getAll(), interests);
     }
 
+    /**
+     * Search skier by Interests in a given List
+     *
+     * @param skier
+     * @param interests
+     * @return List of matched Skier
+     */
     private static List<Skier> searchByInterests(List<Skier> skier, List<Interests> interests) {
         List<Skier> byInterests = new ArrayList<Skier>();
         for (Skier s : skier) {

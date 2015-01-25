@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
+ * Session Class, saves the session key of the logged in users
+ *
  * Created by Ivan on 22.01.2015.
  */
 
@@ -30,6 +32,12 @@ public class Session extends Model {
         this.skierId = skierId;
     }
 
+    /**
+     * Authenticate a Skier by a Given Cookie
+     *
+     * @param sessionCookie
+     * @return Skier
+     */
     public static Skier authenticateSession(Http.Cookie sessionCookie){
 
         if(sessionCookie != null) {
@@ -52,6 +60,13 @@ public class Session extends Model {
     }
 
 
+    /**
+     * Authenticate a Skier by username and Password
+     *
+     * @param username
+     * @param password
+     * @return Skier
+     */
     public static Skier authenticate(String username, String password) {
         try{
             Skier result=Skier.FIND.where().like("username",username).findUnique();
@@ -65,7 +80,11 @@ public class Session extends Model {
         }
     }
 
-
+    /**
+     * Register a Skier with Form Data
+     *
+     * @return Skier
+     */
     public static Skier register() {
         String username = Form.form().bindFromRequest().get("username");
         String password = Form.form().bindFromRequest().get("password");

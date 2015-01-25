@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Lift Model
+ *
  * Created by BlackMark on 18/01/2015.
  */
 @Entity
@@ -74,6 +76,12 @@ public class Lift extends Model{
         return FIND.where().like("name", name).findUnique();
     }
 
+    /**
+     * Search Lift by Ski Arena
+     *
+     * @param arena
+     * @return List of matched Lifts
+     */
     public static List<Lift> getBySkiarena(String arena){
         List<Lift> bySkiarena=new ArrayList<Lift>();
         for(Lift f : getAll()){
@@ -84,6 +92,13 @@ public class Lift extends Model{
         return bySkiarena;
     }
 
+    /**
+     * Search by Ski arena and number of seats
+     *
+     * @param seats
+     * @param arena
+     * @return List of matched Lifts
+     */
     public static List<Lift> bySeatsAtArena(int seats, String arena){
         List<Lift> bySeats=new ArrayList<Lift>();
         for(Lift l : getBySkiarena(arena)){

@@ -8,6 +8,8 @@ import javax.persistence.ManyToMany;
 import java.util.List;
 
 /**
+ * interests Model
+ *
  * Created by Ivan on 19.01.2015.
  */
 @Entity

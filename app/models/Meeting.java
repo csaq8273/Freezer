@@ -1,6 +1,8 @@
 package models;
 
 /**
+ * Meeting model
+ *
  * Created by BlackMark on 18/01/2015.
  */
 
@@ -81,6 +83,12 @@ public class Meeting extends Model implements Comparable<Meeting>{
         return maxid;
     }
 
+    /**
+     * Get Meetings from a Skier
+     *
+     * @param skier
+     * @return List of Meetings
+     */
     public static List<Meeting> getBySkier(Skier skier) {
         List<Meeting> result = new ArrayList<>();
         for(Meeting m : getAll()){

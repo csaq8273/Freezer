@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Skiarena Model
+ *
  * Created by Ivan on 21.01.2015.
  */
 @Entity
