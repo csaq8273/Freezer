@@ -10,20 +10,20 @@
       <form action="@routes.Application.register()" method="post" data-ajax="false">
         <h2>We need some more Information..</h2>
         <div class="ui-body ui-body-a">
-          <input type="hidden" name="username" id="username" value="@username"/>
-          <input type="hidden" name="password" id="password" placeholder="@password" />
+          <input type="hidden" name="username" id="username"  value="@username"/>
+          <input type="hidden" name="password" id="password" value="@password" />
 
         <div data-role="fieldcontain">
           <label for="firstname">First Name:</label>
-          <input type="text" name="firstname" id="firstname" placeholder="Maximilian" />
+          <input type="text" name="firstname" id="firstname" tabindex="1" placeholder="Maximilian" />
         </div>
         <div data-role="fieldcontain">
           <label for="lastname">Last Name:</label>
-          <input type="text" name="lastname" id="lastname" placeholder="Mustermann" />
+          <input type="text" name="lastname" id="lastname" tabindex="2" placeholder="Mustermann" />
         </div>
         <div data-role="fieldcontain">
           <label for="birthdate">Birthdate:</label>
-          <input type="date" name="birthdate" id="birthdate">
+          <input type="date" name="birthdate" tabindex="3" id="birthdate">
         </div>
         <input type="submit" value="Register">
         </div>

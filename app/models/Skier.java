@@ -96,7 +96,7 @@ public class Skier extends Model{
 
 
     public static List<Skier> searchByUsername(String username){
-        return FIND.where().like("name",username).findList();
+        return FIND.where().icontains("username", username).findList();
     }
 
     public static List<Skier> searchByAttributes(String arena, int from, int to, List<Interests> interests){
@@ -227,5 +227,9 @@ public class Skier extends Model{
 
     public void addMeeting(Meeting m) {
         meetings.add(m);
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

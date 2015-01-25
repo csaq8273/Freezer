@@ -13,6 +13,7 @@ import views.html.meeting;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,9 @@ public class Application extends Controller {
                 doneMeetings++;
             } else openMeetings++;
         }
-        return ok(home.render(loggedInSkier,Interests.getAll(),Skiarena.getAll(),Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings),Meeting.getBySkier(loggedInSkier)));
+        List<Meeting> usermeetings =Meeting.getBySkier(loggedInSkier);
+                Collections.sort(usermeetings);
+        return ok(home.render(loggedInSkier,Interests.getAll(),Skiarena.getAll(),Integer.valueOf(openMeetings), Integer.valueOf(doneMeetings),usermeetings));
     }
 
     public static Result searchSkier(){

@@ -19,6 +19,7 @@ create table lift (
 
 create table meeting (
   id                        integer not null,
+  lift_id                   integer,
   date                      timestamp,
   constraint pk_meeting primary key (id))
 ;
@@ -85,8 +86,10 @@ create sequence skier_seq;
 
 alter table lift add constraint fk_lift_ski_arena_1 foreign key (ski_arena_id) references skiarena (id) on delete restrict on update restrict;
 create index ix_lift_ski_arena_1 on lift (ski_arena_id);
-alter table skier add constraint fk_skier_current_location_2 foreign key (current_location_id) references skiarena (id) on delete restrict on update restrict;
-create index ix_skier_current_location_2 on skier (current_location_id);
+alter table meeting add constraint fk_meeting_lift_2 foreign key (lift_id) references lift (id) on delete restrict on update restrict;
+create index ix_meeting_lift_2 on meeting (lift_id);
+alter table skier add constraint fk_skier_current_location_3 foreign key (current_location_id) references skiarena (id) on delete restrict on update restrict;
+create index ix_skier_current_location_3 on skier (current_location_id);
 
 
 

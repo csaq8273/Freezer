@@ -68,14 +68,15 @@ function postSearch(){
                                 interests += interest.name + ", ";
                             });
                         }
-                        $("#skier_list").append('<li data-role="list-divider">' + entry.username + '</li>' +
-                        '                    <li><a href="/meeting/' + entry.id + '" data-role="button" data-rel="dialog" data-transition="pop"> ' +
+                        $("#skier_list").append('<a href="javascript:getMeet(' + entry.id + ')" data-role="button" > <li data-role="list-divider">' + entry.username + '</li>' +
+                        '                    <li>' +
                         '                        <h2>' + entry.firstname + ' ' + entry.lastname + '</h2> ' +
                         '                        <p>' + birth.getYear() + ' Years old. ' + ((entry.current_location == null) ? 'offline' : 'Currently at ' + entry.current_location.name) + '</p>' +
                         '                        <p>Interested in ' + interests + '</p>' +
-                        '                            </a>' +
-                        '                            </li>');
+                        '                            ' +
+                        '                            </li></a>');
                     });
+                    $("#skier_list").listview().listview('refresh');
                     location.href = "#skierList";
 
                 }
@@ -84,19 +85,44 @@ function postSearch(){
     }
 }
 
+function getMeet(id){
+    $.ajax({
+        type: "get",
+        url: "/meeting/"+id,
+        success: function(response, textStatus, XMLHttpRequest) {
+            if (response.error) {
+                console.log('ERROR: ' + response.error);
+            } else {
+                mediaSource = response.url;
+                $("body").append(response);
+                $('#meeting_dialog').dialog();
+                $("body").append('<div style="position: fixed; top:0px; left:0px; width: 100%; height: 100%; background: #000;opacity:0.5;z-index: 100;"></div>');
+                $("#meeting_dialog").css({"z-index":1000});
+                $("#meeting_dialog").children().css({"z-index":1000});
+                $("#meeting_dialog").children($(".ui-content")).css({"background":"#fff"});
+              //  location.href="#skierList&ui-state=dialog";
+            }
+        }
+    });
+}
+
 
 function postMeet(){
     $.ajax({
         type: "post",
         url: "/meet/"+$("#otherSkier").val(),
-        data: $('#meet_form').serialize(),
+        data: {
+            "time":$("#time").val(),
+            "otherSkier":$("#otherSkier").val(),
+            "lift":$("#lift").val()
+        },
         dataType: 'json',
         success: function(response, textStatus, XMLHttpRequest) {
             if (response.error) {
                 console.log('ERROR: ' + response.error);
             } else {
                 mediaSource = response.url;
-
+                location.reload();
             }
         }
     });
@@ -118,3 +144,12 @@ function requestMeeting(id,lift){
         }
     });
 }
+
+$(document).ready(function(){
+    if(location.href.indexOf("skierList")!=-1){
+        if($("#number_of_skier").html().indexOf("Search")==-1){
+
+            $.mobile.changePage("/")
+        }
+    }
+});

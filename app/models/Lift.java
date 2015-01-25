@@ -22,6 +22,9 @@ public class Lift extends Model{
     
     private int seats;
 
+    @OneToMany(mappedBy = "lift")
+    private List<Meeting> meetings;
+
     public static final Model.Finder<Integer, Lift> FIND = new Model.Finder<Integer, Lift>(Integer.class,
             Lift.class);
 
@@ -68,7 +71,7 @@ public class Lift extends Model{
     }
 
     public static Lift getByName(String name){
-        return FIND.where().eq("name",name).findUnique();
+        return FIND.where().like("name", name).findUnique();
     }
 
     public static List<Lift> getBySkiarena(String arena){

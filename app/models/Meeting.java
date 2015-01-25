@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Meeting extends Model{
+public class Meeting extends Model implements Comparable<Meeting>{
 
     @Id
     private Integer id;
@@ -20,7 +20,7 @@ public class Meeting extends Model{
     @ManyToMany
     private List<Skier> skiers;
     
-    
+    @ManyToOne
     private Lift lift;
     
     private Date date;
@@ -89,5 +89,10 @@ public class Meeting extends Model{
             }
         }
         return result;
+    }
+
+    @Override
+    public int compareTo(Meeting o) {
+        return - getDate().compareTo(o.getDate());
     }
 }

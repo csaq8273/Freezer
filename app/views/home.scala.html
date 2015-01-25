@@ -3,6 +3,9 @@
     @main("Freezer - " +skier.getUsername) {
 
         <div data-role="page" id="home" data-theme="a" >
+            <script type="text/javascript">
+                var loggedInSkier = @skier.getId() ;
+            </script>
             <div data-role="header" data-theme="a">
                 <h1>@skier.getFirstname()'s Freezer</h1>
             </div>
@@ -46,6 +49,12 @@
                         <label for="meetings"><strong>Meetings:</strong></label>
                         <span  name="meetings" id="openMeetings" >Open: @openMeetings</span>
                         <span  name="meetings" id="doneMeetings" >Done: @doneMeetings</span>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="interests"><strong>Interests:</strong></label>
+                        <span  name="interests" id="interests" >@for(inter <- skier.getInterests){
+                            @inter.getName(),
+                        }</span>
                     </div>
                 </div>
             </div>
@@ -131,19 +140,21 @@
                         </ul>
                     </div>
                     <div class="ui-body ui-body-a">
-                        <ul data-role="listview" data-inset="true">
+                        <ul data-role="listview" data-inset="true" id="meetingsList">
                             @for(meeting <- meetings){
 
-                                <li data-role="list-divider">@meeting.getDate.toGMTString</li>
+                                <li data-role="list-divider">At @meeting.getDate.toLocaleString</li>
+                                <li>
+                                <p><strong>Lift: </strong>@meeting.getLift.getName</p>
+                                <p><strong>With: </strong>
                                 @for(partner <- meeting.getSkiers){
                                     @if(skier!=partner){
-                                        <li><a href="#">
-                                            <h2>@partner.getUsername</h2>
-                                            <p>Met on @meeting.getLift.getName </p>
-                                            </a>
-                                        </li>
+                                        @partner.getUsername
                                     }
                                 }
+                                    </p>
+
+                                </li>
                             }
                         </ul>
                     </div>

@@ -53,14 +53,16 @@ public class Session extends Model {
 
 
     public static Skier authenticate(String username, String password) {
-        Skier result=null;
         try{
-            result=Skier.FIND.where().eq("username",username).eq("password",password).findUnique();
+            Skier result=Skier.FIND.where().like("username",username).findUnique();
+
+            if(result.getPassword().equals(password))
+                return result;
+            else return null;
         } catch (Exception e){
             e.printStackTrace();
             return null;
         }
-        return result;
     }
 
 
@@ -84,6 +86,7 @@ public class Session extends Model {
 
 
     }
+
     public static Session getById(String id){
         return FIND.byId(id);
     }
