@@ -12,10 +12,7 @@ import views.html.meeting;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static play.libs.Json.toJson;
 
@@ -155,15 +152,19 @@ public class Application extends Controller {
             DateFormat df = new SimpleDateFormat("HH:mm");
             Meeting m;
             try {
-                        m= new Meeting(Lift.getByName(lift), skierList, new Date(new Date().getTime() + df.parse(time).getTime()));
-                        m.save();
+                Calendar calDate = Calendar.getInstance();
+                Calendar calTime = Calendar.getInstance();
+                calTime.setTime(new Date(df.parse(time).getTime()));
+                calDate.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
+                calDate.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+                calDate.set(Calendar.SECOND, 0);
+
+                m= new Meeting(Lift.getByName(lift), skierList, calDate.getTime());
+                m.save();
                     } catch (Exception e) {
                         return ok(toJson(e));
                     }
             return ok(toJson(Meeting.getBySkier(loggedInSkier)));
-
-
-
         }
     }
 
